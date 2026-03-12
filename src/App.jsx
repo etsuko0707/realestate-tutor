@@ -697,18 +697,18 @@ export default function App() {
         )}
       </div>
 
-      </div>
-      {/* ── bottom nav (mobile) ── */}
-      <div className="md:hidden" style={{display:'flex', borderTop:'1px solid rgb(30,41,59)', background:'rgba(15,23,42,0.95)', paddingBottom:'env(safe-area-inset-bottom)', flexShrink:0}}>
-        {NAV.map(({ id, icon: Icon, label }) => (
-          <button key={id} onClick={() => setTab(id)}
-            className={`flex-1 flex flex-col items-center justify-center py-2.5 gap-1 transition-all ${
-              tab === id ? 'text-amber-400' : 'text-slate-500 hover:text-slate-300'
-            }`}>
-            <Icon size={20} />
-            <span style={{ fontSize: '10px' }}>{label}</span>
-          </button>
-        ))}
+        {/* ── bottom nav (mobile) ── */}
+        <div className="md:hidden" style={{display:'flex', borderTop:'1px solid rgb(30,41,59)', background:'rgba(15,23,42,0.95)', paddingBottom:'env(safe-area-inset-bottom)', flexShrink:0}}>
+          {NAV.map(({ id, icon: Icon, label }) => (
+            <button key={id} onClick={() => setTab(id)}
+              className={`flex-1 flex flex-col items-center justify-center py-2.5 gap-1 transition-all ${
+                tab === id ? 'text-amber-400' : 'text-slate-500 hover:text-slate-300'
+              }`}>
+              <Icon size={20} />
+              <span style={{ fontSize: '10px' }}>{label}</span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
