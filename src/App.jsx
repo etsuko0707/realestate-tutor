@@ -43,9 +43,9 @@ function SpeakButton({ text, lang, speak, stop, speaking, small }) {
 
 function ChatTab({ lang, messages, input, setInput, loading, sendMessage, feedback, showTranslation, toggleTranslation, speak, stop, speaking, bottomRef }) {
   return (
-    <div className="flex-1 flex flex-col overflow-hidden">
+    <div style={{display:'flex', flexDirection:'column', flex:1, minHeight:0, overflow:'hidden'}}>
       {/* messages */}
-      <div className="flex-1 overflow-y-auto px-3 py-4 space-y-3">
+      <div style={{flex:1, overflowY:'auto', WebkitOverflowScrolling:'touch', padding:'16px 12px', display:'flex', flexDirection:'column', gap:'12px'}}>
         {messages.map(m => (
           <div key={m.id} className={`flex fade-in ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             {m.sender === 'tutor' && (
@@ -123,7 +123,7 @@ function ChatTab({ lang, messages, input, setInput, loading, sendMessage, feedba
       )}
 
       {/* quick phrases */}
-      <div className="border-t border-slate-800/80 px-3 py-2 flex gap-2 overflow-x-auto">
+      <div style={{borderTop:'1px solid rgba(30,41,59,0.8)', padding:'8px 12px', display:'flex', gap:'8px', overflowX:'auto', flexShrink:0}}>
         {QUICK_PHRASES[lang].map(phrase => (
           <button
             key={phrase}
@@ -136,22 +136,41 @@ function ChatTab({ lang, messages, input, setInput, loading, sendMessage, feedba
       </div>
 
       {/* input */}
-      <div className="bg-slate-900/80 border-t border-slate-800 px-3 py-3 backdrop-blur-sm" style={{paddingBottom: 'max(12px, env(safe-area-inset-bottom))'}}>
-        <div className="flex gap-2">
+      <div style={{borderTop:'1px solid rgb(30,41,59)', padding:'12px', flexShrink:0, background:'rgba(15,23,42,0.95)'}}>
+        <div style={{display:'flex', gap:'8px', alignItems:'center'}}>
           <input
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && !e.shiftKey && sendMessage()}
             onFocus={() => setTimeout(() => bottomRef.current?.scrollIntoView({behavior:'smooth'}), 400)}
             placeholder={`${LANGUAGES[lang].nativeName}で入力...`}
-            className="flex-1 px-4 py-2.5 bg-slate-800/80 border border-slate-700/60 rounded-full text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/70 focus:border-transparent"
             disabled={loading}
-            style={{fontSize: '16px'}}
+            style={{
+              flex:1, minWidth:0,
+              padding:'10px 16px',
+              background:'rgba(30,41,59,0.8)',
+              border:'1px solid rgba(71,85,105,0.6)',
+              borderRadius:'9999px',
+              color:'white',
+              fontSize:'16px',
+              outline:'none',
+            }}
           />
           <button
             onClick={sendMessage}
             disabled={loading || !input.trim()}
-            className="bg-amber-500 text-slate-900 rounded-full p-2.5 hover:bg-amber-400 active:scale-95 disabled:opacity-40 transition-all shadow-lg shadow-amber-500/20"
+            style={{
+              background: (loading || !input.trim()) ? 'rgba(245,158,11,0.4)' : '#f59e0b',
+              color:'#0f172a',
+              borderRadius:'9999px',
+              padding:'10px',
+              border:'none',
+              cursor: (loading || !input.trim()) ? 'not-allowed' : 'pointer',
+              flexShrink:0,
+              display:'flex',
+              alignItems:'center',
+              justifyContent:'center',
+            }}
           >
             <Send size={18} />
           </button>
@@ -589,7 +608,7 @@ export default function App() {
   ];
 
   return (
-    <div className="flex bg-slate-950 text-white overflow-hidden pt-safe" style={{height: "100dvh"}}>
+    <div style={{display:'flex', width:'100%', height:'100%', background:'#0f172a', color:'white', overflow:'hidden'}}>
       {/* ── left sidebar (desktop) ── */}
       <div className="hidden md:flex w-16 bg-slate-900/80 border-r border-slate-800/80 flex-col items-center py-4 gap-3 flex-shrink-0 backdrop-blur-sm">
         <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center mb-2 shadow-lg shadow-amber-500/20">
@@ -658,6 +677,7 @@ export default function App() {
         </div>
 
         {/* tab content */}
+      <div style={{flex:1, display:'flex', flexDirection:'column', minHeight:0, overflow:'hidden'}}>
         {tab === 'chat' && (
           <ChatTab
             lang={lang} messages={messages} input={input} setInput={setInput}
@@ -677,8 +697,9 @@ export default function App() {
         )}
       </div>
 
+      </div>
       {/* ── bottom nav (mobile) ── */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900/90 border-t border-slate-800/80 flex backdrop-blur-sm" style={{paddingBottom: "env(safe-area-inset-bottom)"}}>
+      <div className="md:hidden" style={{display:'flex', borderTop:'1px solid rgb(30,41,59)', background:'rgba(15,23,42,0.95)', paddingBottom:'env(safe-area-inset-bottom)', flexShrink:0}}>
         {NAV.map(({ id, icon: Icon, label }) => (
           <button key={id} onClick={() => setTab(id)}
             className={`flex-1 flex flex-col items-center justify-center py-2.5 gap-1 transition-all ${
