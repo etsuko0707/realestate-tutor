@@ -1,13 +1,8 @@
-const API_KEY = process.env.REACT_APP_ANTHROPIC_API_KEY;
-
-export async function callClaude(systemPrompt, userPrompt) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+// サーバー側のAPIルート経由で呼び出す（ブラウザからAPIキーを隠蔽）
+async function callClaude(systemPrompt, userPrompt) {
+  const res = await fetch('/api/chat', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1024,
