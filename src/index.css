@@ -2,20 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --safe-top: env(safe-area-inset-top);
-  --safe-bottom: env(safe-area-inset-bottom);
-}
-
 * {
   -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
 }
 
-html, body, #root {
-  height: 100%;
+html {
   height: -webkit-fill-available;
-  overflow: hidden;
 }
 
 body {
@@ -24,26 +17,31 @@ body {
   color: white;
   overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
+  /* iPhoneのキーボード表示時にページがスクロールしないよう固定 */
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  height: -webkit-fill-available;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
 }
 
 .font-mono { font-family: 'DM Mono', monospace; }
-
-/* スマホ下部セーフエリア対応 */
-.pb-safe { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
-.pt-safe { padding-top: max(0px, env(safe-area-inset-top)); }
 
 /* スクロールバー非表示 */
 ::-webkit-scrollbar { display: none; }
 * { scrollbar-width: none; }
 
-/* カード flip animation */
+/* アニメーション */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .fade-in { animation: fadeIn 0.25s ease forwards; }
 
-/* bounce dots */
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-6px); }

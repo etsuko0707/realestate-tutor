@@ -136,15 +136,17 @@ function ChatTab({ lang, messages, input, setInput, loading, sendMessage, feedba
       </div>
 
       {/* input */}
-      <div className="bg-slate-900/80 border-t border-slate-800 px-3 py-3 pb-safe backdrop-blur-sm">
+      <div className="bg-slate-900/80 border-t border-slate-800 px-3 py-3 backdrop-blur-sm" style={{paddingBottom: 'max(12px, env(safe-area-inset-bottom))'}}>
         <div className="flex gap-2">
           <input
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+            onFocus={() => setTimeout(() => bottomRef.current?.scrollIntoView({behavior:'smooth'}), 400)}
             placeholder={`${LANGUAGES[lang].nativeName}で入力...`}
             className="flex-1 px-4 py-2.5 bg-slate-800/80 border border-slate-700/60 rounded-full text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/70 focus:border-transparent"
             disabled={loading}
+            style={{fontSize: '16px'}}
           />
           <button
             onClick={sendMessage}
@@ -587,7 +589,7 @@ export default function App() {
   ];
 
   return (
-    <div className="flex h-screen bg-slate-950 text-white overflow-hidden pt-safe">
+    <div className="flex bg-slate-950 text-white overflow-hidden pt-safe" style={{height: "100dvh"}}>
       {/* ── left sidebar (desktop) ── */}
       <div className="hidden md:flex w-16 bg-slate-900/80 border-r border-slate-800/80 flex-col items-center py-4 gap-3 flex-shrink-0 backdrop-blur-sm">
         <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center mb-2 shadow-lg shadow-amber-500/20">
@@ -676,7 +678,7 @@ export default function App() {
       </div>
 
       {/* ── bottom nav (mobile) ── */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900/90 border-t border-slate-800/80 flex backdrop-blur-sm pb-safe">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900/90 border-t border-slate-800/80 flex backdrop-blur-sm" style={{paddingBottom: "env(safe-area-inset-bottom)"}}>
         {NAV.map(({ id, icon: Icon, label }) => (
           <button key={id} onClick={() => setTab(id)}
             className={`flex-1 flex flex-col items-center justify-center py-2.5 gap-1 transition-all ${
